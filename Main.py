@@ -7,18 +7,18 @@ import csv
 
 
 
-# Exit whenever 'escape' is pressed
+# Define the global exit key.
 def exit_experiment():
     win.close()
     core.quit()
 event.globalKeys.add(key='escape', func=exit_experiment)
 
 
-# open a white full screen window
+# Open a white full screen window
 win = visual.Window(size=(1000, 600), fullscr=False, allowGUI=True, color='white', unit='height') 
 
 
-# The visual Messages
+# Create the visual Messages
 background = visual.Rect(win, width=1.6, height=1.5, fillColor="grey")
 MTMinfo = visual.TextStim(win, text = "This experiment is designed to record the activity of the mice during habituation phase and test session of the Multiple Time Memory Experiment.\nAfter entering the slot and session info, the corresponding videos manually collected during the behavioural experiment will be drawn out.\n\nPress any key to continue.", color = 'black')
 instructinfo = visual.TextStim(win, text = "You can exit at any time by pressing 'escape'.", color = 'black')
@@ -28,7 +28,8 @@ error_videonotfound = visual.TextStim(win, text = "Uh oh! The video file for thi
 text_novideo = visual.TextStim(win, text = "The mouse activity videos used for this experiment has yet to be collected.\nIt is estimated that they will be collected during February.\nNow, a text stimulus will be placed in where the video should be to mimic the procedure.\n\nPress any key to continue.", color = 'black')
 ending = visual.TextStim(win, text = "The dwell time for this mouse has been recorded!\nIt will be saved as a csv file.", color = 'black')
 
-# Import the dataframe
+# Import the information of subject mice if there is already an existing csv file.
+# Otherwise, prompt the user to create one with AssignSubject.py
 try:
         df = pd.read_csv('MTMmice.csv')
 except:
@@ -38,7 +39,7 @@ except:
     event.waitKeys()
     win.close()
 
-# Create subject number and session
+# Show the information for the whole Multiple Time Memory experiment and this experiment.
 background.draw()
 MTMinfo.draw()
 win.flip()
@@ -48,6 +49,7 @@ instructinfo.draw()
 win.flip()
 event.waitKeys()
 
+# Prompt the user to input the mouse and the session that they wish to record.
 background.draw()
 win.flip()
 slot = None
@@ -67,7 +69,6 @@ while slot is None or session is None:
         
 
 # Create the video stimuli based on the info
-
 if df.loc[df.slot==slot, "group"][0][:3] == "CPP":
     left_video = slot+"-"+session+"-Plain.avi"
     right_video = slot+"-"+session+"-Circles.avi"
@@ -88,13 +89,12 @@ else:
     background.draw()
     text_novideo.draw()
     win.flip()
-    print("why")
     event.waitKeys()
     left_movie = visual.TextStim(win, text = "This is where the video of the left chamber will be.", pos = [-0.4, 0], wrapWidth=0.6, color='black')
     right_movie = visual.TextStim(win, text = "This is where the video of the right chamber will be.", pos = [0.4, 0],wrapWidth=0.6, color='black')
 
 
-
+# Show instructions for this experiment
 background.draw()
 experimentinfo.draw()
 win.flip()
@@ -103,7 +103,7 @@ event.waitKeys()
 trialClock = core.Clock()
 stimClock = core.Clock()
 
-# record how long the mice spent in each chamber
+# Record when did they mouse enter or leave which chamber
 background.draw()
 left_movie.draw()
 right_movie.draw()
@@ -115,13 +115,13 @@ while trialClock.getTime() < 3600:
     stimClock.reset()
     response = event.waitKeys(keyList=['left','down','right'], timeStamped = stimClock)
     dwelltime = dwelltime.append({'response':response[0][0],'time':response[0][1]}, ignore_index=True)
-print(dwelltime)
-    
+
+# Show ending message.
 background.draw()
 ending.draw()
 win.flip()
 event.waitKeys()
 
     
-
+# Output the recorded information to a csv file. Witht the name being the animal's location and the session.
 dwelltime.to_csv(slot+"-"+session+".csv", encoding='utf-8', index=False)

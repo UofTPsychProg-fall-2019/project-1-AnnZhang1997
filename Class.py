@@ -40,7 +40,7 @@ class MTMSubjectMouse:
     habituation: dict
     test: dict
     
-    def __init__(self, num):
+    def __init__(self, num: int) -> None:
         """Initialize a MTMSubjectMouse with subject number "num".
         """
         self.SubjectNum = num
@@ -53,12 +53,12 @@ class MTMSubjectMouse:
         self.test = {"paired": 0, "unpaired": 0}
         
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Mouse {0} in {1} Test-{2} group.".format(self.SubjectNum, 
                                                     self.Group[0], 
                                                     self.Group[1])
     
-    def __str__(self):
+    def __str__(self) -> str:
         return "Mouse {0} in {1} Test-{2} group.\n \
             CPP/CPA Train Time: {3}/{4}.\n \
             CPP/CPA paired chamber: {5}/{6} \n \
@@ -68,7 +68,7 @@ class MTMSubjectMouse:
             self.CPAchambers["paired"], self.TestTime)
     
 
-    def setchambers(self, stimulus, paired, unpaired):
+    def setchambers(self, stimulus: str, paired: str, unpaired: str) -> None:
         """
         Update the paired and unpaired chambers for stimulus when stimulus is
         a valid stimulus.
@@ -85,7 +85,7 @@ class MTMSubjectMouse:
 
 
 
-    def settraintime(self, stimulus, time):
+    def settraintime(self, stimulus: str, time: int) -> None
         """
         Update the training time for stimulus if stimulus is a valid stimulus.
         """
@@ -98,7 +98,7 @@ class MTMSubjectMouse:
             print ("This is not a valid stimulus!")
     
 
-    def setgroup(self, stimulus, teston):
+    def setgroup(self, stimulus: str, teston: str) -> None:
         """
         Update the group of mouse, based on which stimulus it will be tested
         for and if testing time matches training time.
@@ -124,7 +124,7 @@ class MTMSubjectMouse:
         else:
             print ("The test Group" + self.Group[-1] + "is not valid.")
              
-    def settesttime(self):
+    def settesttime(self) -> None:
         """
         Update the test time for mouse, based on its group and training time.
         """
@@ -141,7 +141,7 @@ class MTMSubjectMouse:
         
 
         
-    def recorddwelltime(self, section: str, paired: int, unpaired: int):
+    def recorddwelltime(self, section: str, paired: int, unpaired: int) -> None:
         """Records the dwell time.
         section can be either "habituation" or "test".
         paired is the number of seconds the subject spent in the paired chamber.

@@ -11,7 +11,7 @@ from Class import MTMSubjectMouse
 # Create a list that includes all the subject mice
 
 def getmicelist() -> list:
-    """Randomize the subjects.
+    """Randomize the subject mice and output as a list.
     """    
     subjectmice = []
     for i in range(48):
@@ -21,7 +21,8 @@ def getmicelist() -> list:
 
 
 def getmicedict(subjectmice) -> dict:
-# assign the randomized subjects to different slots in the stacks.
+    """Assign the subjects from subjectmice to different location slots.
+    """
     MTMmice = {}
     stack1 = ["a", "b", "c", "d"]
     stack2 = ["a", "b", "c", "d"]
@@ -35,7 +36,7 @@ def getmicedict(subjectmice) -> dict:
         MTMmice[slot] = subjectmice[i]
     return MTMmice
 
-def assigncondition(MTMmice) -> dict:
+def assigncondition(MTMmice: list) -> dict:
     """assign training and testing conditions to mice based on their slot.
     """
     for slot in MTMmice:
@@ -69,11 +70,13 @@ def assigncondition(MTMmice) -> dict:
                 MTMmice[slot].setchambers("CPA", "checkered", "striped")
     
 def assigntesttime(MTMmice: dict) -> None:
+    """Assign testing time to mice based on their slot.
+    """
     for slot in MTMmice:
         MTMmice[slot].settesttime()
         
 def getdf(MTMmice: dict) -> pd.DataFrame:
-    """output all information to a dataframe.
+    """Output all information to a dataframe.
     """
     df_mice = pd.DataFrame()
     for slot in MTMmice:
@@ -82,7 +85,7 @@ def getdf(MTMmice: dict) -> pd.DataFrame:
     return df_mice
 
 
-def getmouse(df, slot) -> MTMSubjectMouse:
+def getmouse(df, slot: str) -> MTMSubjectMouse:
     """Generate a MTMSubjectMouse based on the information of 
     the mouse kept in slot.
     """
@@ -112,7 +115,7 @@ def getmouse(df, slot) -> MTMSubjectMouse:
     return mouse
 
 
-def updatedwelltime(df: pd.DataFrame, mouse: MTMSubjectMouse, slot) -> pd.DataFrame:
+def updatedwelltime(df: pd.DataFrame, mouse: MTMSubjectMouse, slot: str) -> pd.DataFrame:
     """update the information of mouse to df_mice.
     """
     new_row = mouse.outputdf(slot)
