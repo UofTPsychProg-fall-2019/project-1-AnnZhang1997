@@ -11,5 +11,7 @@ The experiment itself contains three sessions:
     The testing session, during which the mouse will be put into the alley connecting the two chambers at its assigned testing time and allowed to explore freely for 10 minutes. The time that the mouse spent in each place will be recorded.
 
 The module "main.py" should be run with Psychopy, the text instructions will tell you whether other modules should be run:
+    
     Module "Class.py" is a supplementary module for "AssignSubject.py" and should not be run independently.
+    
     Module "AssignSubject.py" should be run with spyder or other Python environments when an original csv file containing mice information does not exist.
